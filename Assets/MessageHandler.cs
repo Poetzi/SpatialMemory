@@ -7,14 +7,16 @@ public class MessageHandler : MonoBehaviour
     public VRServer vrServer;
     public HandPositionManager handPositionManager;
     public RandomSpawner spawner;
-    private bool firstTime = true;
     public NameDisplayHandler nameDisplayHandler;
     public StartObjectSpawner startObjectSpawner;
     public CSVWriter csvWriter;
+    public Timer timer;
+
+    private int clickCount = 0; // Track the number of clicks
 
     void Awake()
+
     {
-        // Safeguard to ensure vrServer is assigned
         if (vrServer == null)
         {
             Debug.LogError("VRServer is not assigned in the inspector");
@@ -26,36 +28,89 @@ public class MessageHandler : MonoBehaviour
     {
         vrServer.OnMessageReceived += HandleMessage;
         startObjectSpawner.SpawnCube();
+        spawner.SpawnObjects();
+        nameDisplayHandler.InitializeNames();
     }
 
     private void HandleMessage(string message)
     {
-        if (!nameDisplayHandler.IsIterationComplete())
+        if (nameDisplayHandler.IsIterationComplete())
         {
-            
-            if (firstTime)
+            HandleCompletedIteration();
+        }
+        else
+        {
+            HandleOngoingIteration();
+        }
+    }
+
+    private void HandleOngoingIteration()
+    {
+        if (clickCount % 2 == 1) // Odd clicks
+        {
+            PerformActionsAndLog();
+        }
+        else // Even clicks
+        {
+            HandleEvenClick();
+        }
+    }
+
+    private void HandleCompletedIteration()
+    {
+        if (clickCount % 2 == 1) // Odd clicks
+        {
+            PerformActionsAndLog();
+            vrServer.OnMessageReceived -= HandleMessage;
+        }
+        else // Even clicks
+        {
+            HandleEvenClick();
+        }
+    }
+
+    private void HandleEvenClick()
+    {
+        if (startObjectSpawner.IsInside(handPositionManager.GetIndexTipPosition()))
+        {
+            timer.StartTimer();
+        }
+        else
+        {
+            Debug.Log("Index finger not in start position; no actions performed.");
+        }
+        clickCount++;
+    }
+
+    private void PerformActionsAndLog()
+    {
+        PerformActions();
+        float time = timer.EndTimerAndGetElapsedTime();
+        List<string> data = new List<string>
+    {
+        "Time Elapsed: " + time.ToString(),
+        "Click Count: " + clickCount.ToString(),
+        "Index Tip Position: " + handPositionManager.GetIndexTipPosition().ToString(),
+    };
+        csvWriter.AddDataToCSV(data);
+        clickCount++;
+        nameDisplayHandler.DisplayNextName();
+    }
+
+    private void PerformActions()
+    {
+        var spawnedPositions = spawner.GetSpawnedPositions();
+        foreach (Vector3 pos in spawnedPositions)
+        {
+            List<string> data = new List<string>
             {
-                spawner.SpawnObjects();
-                nameDisplayHandler.InitializeNames();
-                firstTime = false;
-            }
-            Debug.Log("Message Handler: " + handPositionManager.GetIndexTipPosition());
-            var spawnedPositions = spawner.GetSpawnedPositions();
-            foreach (Vector3 pos in spawnedPositions)
-            {
-                Debug.Log("Spawned Position: " + pos);
-            }
-            nameDisplayHandler.DisplayNextName();
-            if (startObjectSpawner.IsInside(handPositionManager.GetIndexTipPosition()))
-            {
-                Debug.Log("Index Finger is inside StartPosition: ");
-            }
-            List<string> data = new List<string> { "John", "Doe", "30" };
+                "Spawned Position: " + pos.ToString(),
+                "Action: Performed",
+                "Click Count: " + clickCount.ToString()
+            };
+
             csvWriter.AddDataToCSV(data);
         }
-        
-        
-
     }
 
     void OnDestroy()

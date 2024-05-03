@@ -10112,6 +10112,7 @@ GameObject:
   - component: {fileID: 1946357752}
   - component: {fileID: 1946357753}
   - component: {fileID: 1946357754}
+  - component: {fileID: 1946357755}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -10177,6 +10178,7 @@ MonoBehaviour:
   nameDisplayHandler: {fileID: 1946357752}
   startObjectSpawner: {fileID: 1946357753}
   csvWriter: {fileID: 1946357754}
+  timer: {fileID: 1946357755}
 --- !u!114 &1946357750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10224,7 +10226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayText: {fileID: 566987853}
   spawner: {fileID: 1946357751}
-  iterations: 2
+  iterations: 1
 --- !u!114 &1946357753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10248,6 +10250,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4b41c8647e9c614ab85ecc8b4ef56e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1946357755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946357745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c7ad8cf4a9e88244803c3accc1827bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1970856775

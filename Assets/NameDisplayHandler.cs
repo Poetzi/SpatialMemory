@@ -30,7 +30,19 @@ public class NameDisplayHandler : MonoBehaviour
 
         PopulateNamesList();
         ShuffleNames();
+
+        // Set the display text to the first name in the shuffled list if there are any names
+        if (names.Count > 0)
+        {
+            displayText.text = names[0];
+            currentNameIndex = 1; // Start from the next name for the next call to DisplayNextName
+        }
+        else
+        {
+            Debug.LogError("No names available to display.");
+        }
     }
+
 
     public void DisplayNextName()
     {
@@ -40,9 +52,10 @@ public class NameDisplayHandler : MonoBehaviour
         }
 
         displayText.text = names[currentNameIndex];
+        Debug.Log("Index " + currentNameIndex);
         currentNameIndex++;
 
-        if (currentNameIndex >= names.Count)
+        if (currentNameIndex >= (names.Count))
         {
             currentNameIndex = 0;
             totalIterationsDone++;
