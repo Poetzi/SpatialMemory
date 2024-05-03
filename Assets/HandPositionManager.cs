@@ -40,7 +40,7 @@ public class HandPositionManager : MonoBehaviour
             SaveHandPosition();
             return lastSavedIndexTipPosition;
         }
-
+        Debug.Log($"Return zero vector, because the position cannot be obtained");
         return Vector3.zero; // Return zero vector if the position cannot be obtained
     }
 

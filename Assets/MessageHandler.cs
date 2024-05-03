@@ -1,9 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class MessageHandler : MonoBehaviour
 {
     public VRServer vrServer;
     public HandPositionManager handPositionManager;
+    public RandomSpawner spawner;
+    private bool firstTime = true;
+    public NameDisplayHandler nameDisplayHandler;
+    public StartObjectSpawner startObjectSpawner;
+    public CSVWriter csvWriter;
 
     void Awake()
     {
@@ -18,11 +25,37 @@ public class MessageHandler : MonoBehaviour
     void Start()
     {
         vrServer.OnMessageReceived += HandleMessage;
+        startObjectSpawner.SpawnCube();
     }
 
     private void HandleMessage(string message)
     {
-        Debug.Log("Message Handler: " + handPositionManager.GetIndexTipPosition());
+        if (!nameDisplayHandler.IsIterationComplete())
+        {
+            
+            if (firstTime)
+            {
+                spawner.SpawnObjects();
+                nameDisplayHandler.InitializeNames();
+                firstTime = false;
+            }
+            Debug.Log("Message Handler: " + handPositionManager.GetIndexTipPosition());
+            var spawnedPositions = spawner.GetSpawnedPositions();
+            foreach (Vector3 pos in spawnedPositions)
+            {
+                Debug.Log("Spawned Position: " + pos);
+            }
+            nameDisplayHandler.DisplayNextName();
+            if (startObjectSpawner.IsInside(handPositionManager.GetIndexTipPosition()))
+            {
+                Debug.Log("Index Finger is inside StartPosition: ");
+            }
+            List<string> data = new List<string> { "John", "Doe", "30" };
+            csvWriter.AddDataToCSV(data);
+        }
+        
+        
+
     }
 
     void OnDestroy()
