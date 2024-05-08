@@ -16,8 +16,8 @@ public class VRServer : MonoBehaviour
 
     void Start()
     {
-        udpClient = new UdpClient(8192);
-        remoteEndPoint = new IPEndPoint(IPAddress.Any, 8192);
+        udpClient = new UdpClient(8193);
+        remoteEndPoint = new IPEndPoint(IPAddress.Any, 8193);
 
         StartListening();
     }

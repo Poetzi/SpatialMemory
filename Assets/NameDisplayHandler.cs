@@ -100,4 +100,11 @@ public class NameDisplayHandler : MonoBehaviour
     {
         return !isActive;
     }
+
+    public string GetCurrentDisplayText()
+    {
+        if (displayText != null)
+            return displayText.text;
+        return "Display Text is not assigned.";
+    }
 }

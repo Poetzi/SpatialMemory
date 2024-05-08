@@ -8,11 +8,11 @@ public class RandomSpawner : MonoBehaviour
     public List<GameObject> prefabs;
     public float minimumDistance = 0.05f; // in meters
 
-    private List<Vector3> usedPositions = new List<Vector3>();
+    private Dictionary<Vector3, string> spawnedObjects = new Dictionary<Vector3, string>();
 
     void Start()
     {
-        
+
     }
 
     public void SpawnObjects()
@@ -26,8 +26,8 @@ public class RandomSpawner : MonoBehaviour
             Vector3 spawnPosition = FindPosition(spawnAreaMin, spawnAreaMax);
             if (spawnPosition != Vector3.zero)
             {
-                Instantiate(prefab, spawnPosition, Quaternion.identity);
-                usedPositions.Add(spawnPosition);  
+                GameObject spawnedObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
+                spawnedObjects[spawnPosition] = prefab.name;
             }
         }
     }
@@ -59,7 +59,7 @@ public class RandomSpawner : MonoBehaviour
 
     bool IsPositionValid(Vector3 position)
     {
-        foreach (Vector3 usedPosition in usedPositions)
+        foreach (Vector3 usedPosition in spawnedObjects.Keys)
         {
             if (Vector3.Distance(usedPosition, position) < minimumDistance)
             {
@@ -70,9 +70,8 @@ public class RandomSpawner : MonoBehaviour
         return true;
     }
 
-    
-    public List<Vector3> GetSpawnedPositions()
+    public Dictionary<Vector3, string> GetSpawnedPositionsAndNames()
     {
-        return new List<Vector3>(usedPositions);
+        return new Dictionary<Vector3, string>(spawnedObjects);
     }
 }

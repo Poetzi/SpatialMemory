@@ -11,6 +11,7 @@ public class MessageHandler : MonoBehaviour
     public StartObjectSpawner startObjectSpawner;
     public CSVWriter csvWriter;
     public Timer timer;
+    private bool debug = true;
 
     private int clickCount = 0; // Track the number of clicks
 
@@ -71,7 +72,7 @@ public class MessageHandler : MonoBehaviour
 
     private void HandleEvenClick()
     {
-        if (startObjectSpawner.IsInside(handPositionManager.GetIndexTipPosition()))
+        if (startObjectSpawner.IsInside(debug ? new Vector3(0.3f, 1, 0) : handPositionManager.GetIndexTipPosition()))
         {
             timer.StartTimer();
         }
@@ -82,34 +83,52 @@ public class MessageHandler : MonoBehaviour
         clickCount++;
     }
 
+    private List<string> collectedData = new List<string>();
+
     private void PerformActionsAndLog()
     {
+        // Perform the action which collects data
         PerformActions();
+
+        // Stop the timer and get the elapsed time
         float time = timer.EndTimerAndGetElapsedTime();
-        List<string> data = new List<string>
-    {
-        "Time Elapsed: " + time.ToString(),
-        "Click Count: " + clickCount.ToString(),
-        "Index Tip Position: " + handPositionManager.GetIndexTipPosition().ToString(),
-    };
-        csvWriter.AddDataToCSV(data);
+
+        // Add the additional data to the collected data
+        collectedData.Add("Time Elapsed: " + time.ToString());
+        collectedData.Add("Click Count: " + clickCount.ToString());
+        collectedData.Add("Index Tip Position: " + (debug ? new Vector3(0.3f, 1, 0) : handPositionManager.GetIndexTipPosition()).ToString());
+
+        // Write the collected data to CSV in one line
+        csvWriter.AddDataToCSV(collectedData);
+
+        // Increment the click count for next use
         clickCount++;
+
+        // Display the next name on the list
         nameDisplayHandler.DisplayNextName();
+
+        // Clear the collected data list for the next round of data collection
+        collectedData.Clear();
     }
 
     private void PerformActions()
     {
-        var spawnedPositions = spawner.GetSpawnedPositions();
-        foreach (Vector3 pos in spawnedPositions)
-        {
-            List<string> data = new List<string>
-            {
-                "Spawned Position: " + pos.ToString(),
-                "Action: Performed",
-                "Click Count: " + clickCount.ToString()
-            };
+        // Get the current target name from the display.
+        string targetName = nameDisplayHandler.GetCurrentDisplayText();
 
-            csvWriter.AddDataToCSV(data);
+        // Retrieve the spawned positions and their corresponding names.
+        var spawnedPositions = spawner.GetSpawnedPositionsAndNames();
+
+        foreach (KeyValuePair<Vector3, string> pos in spawnedPositions)
+        {
+            // Check if the name at the current position matches the target name.
+            if (pos.Value == targetName)
+            {
+                // Instead of writing here, add it to the collected data
+                collectedData.Add("Spawned Position: " + pos.Key);
+                collectedData.Add("Name: " + pos.Value);
+                collectedData.Add("Target: " + targetName);
+            }
         }
     }
 
