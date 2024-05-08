@@ -15,6 +15,12 @@ public class MessageHandler : MonoBehaviour
 
     private int clickCount = 0; // Track the number of clicks
 
+    private Vector3 evenClickIndexTipPosition;
+    private bool evenClickPositionCaptured = false; // Flag to check if position was captured on even click
+
+
+    private List<string> collectedData = new List<string>();
+
     void Awake()
 
     {
@@ -72,31 +78,80 @@ public class MessageHandler : MonoBehaviour
 
     private void HandleEvenClick()
     {
-        if (startObjectSpawner.IsInside(debug ? new Vector3(0.3f, 1, 0) : handPositionManager.GetIndexTipPosition()))
+        Vector3 indexTipPosition = debug ? new Vector3(0.3f, 1, 0) : handPositionManager.GetIndexTipPosition();
+
+        if (startObjectSpawner.IsInside(indexTipPosition))
         {
             timer.StartTimer();
+            // Store the index tip position on even clicks
+            evenClickIndexTipPosition = indexTipPosition;
+            evenClickPositionCaptured = true; // Mark that the position has been captured
         }
         else
         {
             Debug.Log("Index finger not in start position; no actions performed.");
         }
+
         clickCount++;
     }
 
-    private List<string> collectedData = new List<string>();
+
+    private bool isCSVInitialized = false;
+
+    private void InitializeCSV()
+    {
+        if (!isCSVInitialized)
+        {
+            // Define the header for the CSV based on the data points being collected
+            List<string> header = new List<string>
+        {
+            "Spawned Position X", "Spawned Position Y", "Spawned Position Z", "Name", "Target",
+            "Time Elapsed", "Click Count", "Index Tip Position X", "Index Tip Position Y", "Index Tip Position Z",
+            "Start Object Index Tip Position X", "Start Object Index Tip Position Y", "Start Object Index Tip Position Z"
+        };
+
+            // Write the header to the CSV
+            csvWriter.WriteHeader(header);
+            isCSVInitialized = true;
+        }
+    }
+
+
 
     private void PerformActionsAndLog()
     {
+        // Ensure the CSV is ready to log data
+        InitializeCSV();
+
         // Perform the action which collects data
         PerformActions();
 
         // Stop the timer and get the elapsed time
         float time = timer.EndTimerAndGetElapsedTime();
+        Vector3 indexTipPosition = debug ? new Vector3(0.3f, 1, 0) : handPositionManager.GetIndexTipPosition();
 
-        // Add the additional data to the collected data
-        collectedData.Add("Time Elapsed: " + time.ToString());
-        collectedData.Add("Click Count: " + clickCount.ToString());
-        collectedData.Add("Index Tip Position: " + (debug ? new Vector3(0.3f, 1, 0) : handPositionManager.GetIndexTipPosition()).ToString());
+        // Add additional data to the collected data
+        collectedData.Add(time.ToString());
+        collectedData.Add(clickCount.ToString());
+        collectedData.Add(indexTipPosition.x.ToString());
+        collectedData.Add(indexTipPosition.y.ToString());
+        collectedData.Add(indexTipPosition.z.ToString());
+
+        // Add the even click index tip position if it was captured
+        if (evenClickPositionCaptured)
+        {
+            collectedData.Add(evenClickIndexTipPosition.x.ToString());
+            collectedData.Add(evenClickIndexTipPosition.y.ToString());
+            collectedData.Add(evenClickIndexTipPosition.z.ToString());
+            evenClickPositionCaptured = false; // Reset flag
+        }
+        else
+        {
+            // Ensure columns are aligned if no data was captured
+            collectedData.Add("");
+            collectedData.Add("");
+            collectedData.Add("");
+        }
 
         // Write the collected data to CSV in one line
         csvWriter.AddDataToCSV(collectedData);
@@ -111,6 +166,7 @@ public class MessageHandler : MonoBehaviour
         collectedData.Clear();
     }
 
+
     private void PerformActions()
     {
         // Get the current target name from the display.
@@ -121,13 +177,14 @@ public class MessageHandler : MonoBehaviour
 
         foreach (KeyValuePair<Vector3, string> pos in spawnedPositions)
         {
-            // Check if the name at the current position matches the target name.
             if (pos.Value == targetName)
             {
-                // Instead of writing here, add it to the collected data
-                collectedData.Add("Spawned Position: " + pos.Key);
-                collectedData.Add("Name: " + pos.Value);
-                collectedData.Add("Target: " + targetName);
+                // Collect only values, ensuring order matches the header
+                collectedData.Add(pos.Key.x.ToString());
+                collectedData.Add(pos.Key.y.ToString());
+                collectedData.Add(pos.Key.z.ToString());
+                collectedData.Add(pos.Value);
+                collectedData.Add(targetName);
             }
         }
     }

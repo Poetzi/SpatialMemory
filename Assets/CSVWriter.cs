@@ -8,8 +8,22 @@ public class CSVWriter : MonoBehaviour
 
     void Start()
     {
-        // Set the file path at start or dynamically set it based on requirements
+        // Set the file path at the start of the application
         filePath = Application.persistentDataPath + "/data.csv";
+
+        // Optionally, you can clear the existing file to start fresh
+        // ResetCSV(); // Uncomment this if you need a fresh start each time
+    }
+
+    // Method to write the header to the CSV file
+    public void WriteHeader(List<string> headerColumns)
+    {
+        string header = string.Join(";", headerColumns); // Combine the header titles with commas
+        // Write or overwrite the header to the file
+        using (StreamWriter writer = new StreamWriter(filePath, false)) // false to overwrite existing content
+        {
+            writer.WriteLine(header);
+        }
     }
 
     // Method to add a new row of data to the CSV file
@@ -24,7 +38,16 @@ public class CSVWriter : MonoBehaviour
     // Overloaded method for adding multiple fields in a row
     public void AddDataToCSV(List<string> rowData)
     {
-        string row = string.Join(",", rowData);
+        string row = string.Join(";", rowData);
         AddDataToCSV(row);
+    }
+
+    // Optional: Method to clear the existing CSV file
+    private void ResetCSV()
+    {
+        using (StreamWriter writer = new StreamWriter(filePath, false)) // false to overwrite existing content
+        {
+            writer.Flush();
+        }
     }
 }
