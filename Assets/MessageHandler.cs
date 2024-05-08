@@ -11,7 +11,7 @@ public class MessageHandler : MonoBehaviour
     public StartObjectSpawner startObjectSpawner;
     public CSVWriter csvWriter;
     public Timer timer;
-    private bool debug = true;
+    private bool debug = false;
 
     private int clickCount = 0; // Track the number of clicks
 
@@ -86,13 +86,14 @@ public class MessageHandler : MonoBehaviour
             // Store the index tip position on even clicks
             evenClickIndexTipPosition = indexTipPosition;
             evenClickPositionCaptured = true; // Mark that the position has been captured
+            clickCount++;
         }
         else
         {
             Debug.Log("Index finger not in start position; no actions performed.");
         }
 
-        clickCount++;
+        
     }
 
 
