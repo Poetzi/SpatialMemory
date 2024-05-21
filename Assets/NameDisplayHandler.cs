@@ -43,7 +43,6 @@ public class NameDisplayHandler : MonoBehaviour
         }
     }
 
-
     public void DisplayNextName()
     {
         if (!isActive || names.Count == 0)
@@ -55,7 +54,7 @@ public class NameDisplayHandler : MonoBehaviour
         Debug.Log("Index " + currentNameIndex);
         currentNameIndex++;
 
-        if (currentNameIndex >= (names.Count))
+        if (currentNameIndex >= names.Count)
         {
             currentNameIndex = 0;
             totalIterationsDone++;
@@ -63,6 +62,10 @@ public class NameDisplayHandler : MonoBehaviour
             {
                 isActive = false; // Stop changing names after reaching the iteration limit
                 Debug.Log("Completed all iterations of name display.");
+            }
+            else
+            {
+                ShuffleNames(); // Shuffle names for the next iteration
             }
         }
     }

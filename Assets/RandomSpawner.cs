@@ -12,7 +12,6 @@ public class RandomSpawner : MonoBehaviour
 
     void Start()
     {
-
     }
 
     public void SpawnObjects()
@@ -70,8 +69,31 @@ public class RandomSpawner : MonoBehaviour
         return true;
     }
 
+    public void SpawnObjectsAtSpecificPositions(List<PrefabPosition> prefabPositions)
+    {
+        foreach (PrefabPosition prefabPosition in prefabPositions)
+        {
+            if (IsPositionValid(prefabPosition.position))
+            {
+                GameObject spawnedObject = Instantiate(prefabPosition.prefab, prefabPosition.position, Quaternion.identity);
+                spawnedObjects[prefabPosition.position] = prefabPosition.prefab.name;
+            }
+            else
+            {
+                Debug.LogWarning("Position " + prefabPosition.position + " is too close to another object.");
+            }
+        }
+    }
+
     public Dictionary<Vector3, string> GetSpawnedPositionsAndNames()
     {
         return new Dictionary<Vector3, string>(spawnedObjects);
     }
+}
+
+[System.Serializable]
+public class PrefabPosition
+{
+    public GameObject prefab;
+    public Vector3 position;
 }

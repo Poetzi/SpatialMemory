@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Globalization;
 using static UnityEditor.PlayerSettings;
 
 public class MessageHandler : MonoBehaviour
@@ -11,7 +12,9 @@ public class MessageHandler : MonoBehaviour
     public StartObjectSpawner startObjectSpawner;
     public CSVWriter csvWriter;
     public Timer timer;
-    private bool debug = false;
+    public bool randomSpawns = true;
+    public List<PrefabPosition> customPrefabPositions;
+    private bool debug = true;
 
     private int clickCount = 0; // Track the number of clicks
 
@@ -20,6 +23,9 @@ public class MessageHandler : MonoBehaviour
 
 
     private List<string> collectedData = new List<string>();
+
+    // Create a CultureInfo object with dot as the decimal separator
+    CultureInfo dotCulture = new CultureInfo("en-US");
 
     void Awake()
 
@@ -35,7 +41,14 @@ public class MessageHandler : MonoBehaviour
     {
         vrServer.OnMessageReceived += HandleMessage;
         startObjectSpawner.SpawnCube();
-        spawner.SpawnObjects();
+        if(randomSpawns)
+        {
+            spawner.SpawnObjects();
+        }
+        else
+        {
+            spawner.SpawnObjectsAtSpecificPositions(customPrefabPositions);
+        }        
         nameDisplayHandler.InitializeNames();
     }
 
@@ -106,9 +119,9 @@ public class MessageHandler : MonoBehaviour
             // Define the header for the CSV based on the data points being collected
             List<string> header = new List<string>
         {
-            "Spawned Position X", "Spawned Position Y", "Spawned Position Z", "Name", "Target",
-            "Time Elapsed", "Click Count", "Index Tip Position X", "Index Tip Position Y", "Index Tip Position Z",
-            "Start Object Index Tip Position X", "Start Object Index Tip Position Y", "Start Object Index Tip Position Z"
+            "StartObjectX", "StartObjectY", "StartObjectZ", "Object", "Target",
+            "TimeElapsed", "ClickCount", "IndexTipX", "IndexTipY", "IndexTipZ",
+            "StartObjectIndexTipX", "StartObjectIndexTipY", "StartObjectIndexTipZ"
         };
 
             // Write the header to the CSV
@@ -132,18 +145,18 @@ public class MessageHandler : MonoBehaviour
         Vector3 indexTipPosition = debug ? new Vector3(0.3f, 1, 0) : handPositionManager.GetIndexTipPosition();
 
         // Add additional data to the collected data
-        collectedData.Add(time.ToString());
-        collectedData.Add(clickCount.ToString());
-        collectedData.Add(indexTipPosition.x.ToString());
-        collectedData.Add(indexTipPosition.y.ToString());
-        collectedData.Add(indexTipPosition.z.ToString());
+        collectedData.Add(time.ToString(dotCulture));
+        collectedData.Add(clickCount.ToString(dotCulture));
+        collectedData.Add(indexTipPosition.x.ToString(dotCulture));
+        collectedData.Add(indexTipPosition.y.ToString(dotCulture));
+        collectedData.Add(indexTipPosition.z.ToString(dotCulture));
 
         // Add the even click index tip position if it was captured
         if (evenClickPositionCaptured)
         {
-            collectedData.Add(evenClickIndexTipPosition.x.ToString());
-            collectedData.Add(evenClickIndexTipPosition.y.ToString());
-            collectedData.Add(evenClickIndexTipPosition.z.ToString());
+            collectedData.Add(evenClickIndexTipPosition.x.ToString(dotCulture));
+            collectedData.Add(evenClickIndexTipPosition.y.ToString(dotCulture));
+            collectedData.Add(evenClickIndexTipPosition.z.ToString(dotCulture));
             evenClickPositionCaptured = false; // Reset flag
         }
         else
@@ -181,9 +194,9 @@ public class MessageHandler : MonoBehaviour
             if (pos.Value == targetName)
             {
                 // Collect only values, ensuring order matches the header
-                collectedData.Add(pos.Key.x.ToString());
-                collectedData.Add(pos.Key.y.ToString());
-                collectedData.Add(pos.Key.z.ToString());
+                collectedData.Add(pos.Key.x.ToString(dotCulture));
+                collectedData.Add(pos.Key.y.ToString(dotCulture));
+                collectedData.Add(pos.Key.z.ToString(dotCulture));
                 collectedData.Add(pos.Value);
                 collectedData.Add(targetName);
             }
