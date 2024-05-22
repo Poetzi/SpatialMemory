@@ -11,6 +11,7 @@ public class MessageHandler : MonoBehaviour
     public NameDisplayHandler nameDisplayHandler;
     public StartObjectSpawner startObjectSpawner;
     public CSVWriter csvWriter;
+    public SceneTransitionManager sceneTransitionManager;
     public Timer timer;
     public bool randomSpawns = true;
     public List<PrefabPosition> customPrefabPositions;
@@ -82,6 +83,7 @@ public class MessageHandler : MonoBehaviour
         {
             PerformActionsAndLog();
             vrServer.OnMessageReceived -= HandleMessage;
+            StartCoroutine(sceneTransitionManager.TransitionToScene(0));
         }
         else // Even clicks
         {
@@ -96,6 +98,7 @@ public class MessageHandler : MonoBehaviour
         if (startObjectSpawner.IsInside(indexTipPosition))
         {
             timer.StartTimer();
+            startObjectSpawner.SwitchColor();
             // Store the index tip position on even clicks
             evenClickIndexTipPosition = indexTipPosition;
             evenClickPositionCaptured = true; // Mark that the position has been captured
@@ -142,6 +145,7 @@ public class MessageHandler : MonoBehaviour
 
         // Stop the timer and get the elapsed time
         float time = timer.EndTimerAndGetElapsedTime();
+        startObjectSpawner.SwitchColor();
         Vector3 indexTipPosition = debug ? new Vector3(0.3f, 1, 0) : handPositionManager.GetIndexTipPosition();
 
         // Add additional data to the collected data

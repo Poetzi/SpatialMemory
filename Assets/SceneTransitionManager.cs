@@ -23,19 +23,26 @@ public class SceneTransitionManager : MonoBehaviour
     private void OnTransitionButtonClicked()
     {
         Debug.Log("Transition button clicked");
-        StartCoroutine(TransitionToScene());
+        StartCoroutine(TransitionToScene(sceneToLoadIndex));
     }
 
-    private IEnumerator TransitionToScene()
+    // Method to transition to the scene using the specified index
+    public IEnumerator TransitionToScene(int sceneIndex)
     {
         // Load the scene asynchronously by build index
-        Debug.Log("Loading scene index: " + sceneToLoadIndex);
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneToLoadIndex);
+        Debug.Log("Loading scene index: " + sceneIndex);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
 
         // Wait until the asynchronous scene fully loads
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
+    }
+
+    // Overloaded method to transition to the scene using the default index
+    public IEnumerator TransitionToScene()
+    {
+        yield return TransitionToScene(sceneToLoadIndex);
     }
 }

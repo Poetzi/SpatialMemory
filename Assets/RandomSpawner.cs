@@ -6,7 +6,7 @@ public class RandomSpawner : MonoBehaviour
 {
     public DrawGizmo gizmo;
     public List<GameObject> prefabs;
-    public float minimumDistance = 0.05f; // in meters
+    public float minimumDistance = 0.15f; // in meters
 
     private Dictionary<Vector3, string> spawnedObjects = new Dictionary<Vector3, string>();
 

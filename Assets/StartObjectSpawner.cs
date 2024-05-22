@@ -5,6 +5,10 @@ public class StartObjectSpawner : MonoBehaviour
     public GameObject cubePrefab; // Assign the cube prefab in the inspector
     private GameObject spawnedCube; // Holds the spawned cube instance
 
+    public Color color1 = Color.red; // First color (red)
+    public Color color2 = Color.blue; // Second color (blue)
+    private bool isColor1 = true; // Track the current color
+
     // Method to spawn the cube
     public void SpawnCube()
     {
@@ -18,6 +22,16 @@ public class StartObjectSpawner : MonoBehaviour
         if (spawnedCube == null)
         {
             spawnedCube = Instantiate(cubePrefab, cubePrefab.transform.position, cubePrefab.transform.rotation);
+            // Set the initial color to red
+            Renderer cubeRenderer = spawnedCube.GetComponent<Renderer>();
+            if (cubeRenderer != null)
+            {
+                cubeRenderer.material.color = color1;
+            }
+            else
+            {
+                Debug.LogError("The cube does not have a Renderer component.");
+            }
         }
     }
 
@@ -41,5 +55,28 @@ public class StartObjectSpawner : MonoBehaviour
             Debug.LogError("No cube has been spawned yet.");
         }
         return false;
+    }
+
+    // Method to switch the color of the spawned cube
+    public void SwitchColor()
+    {
+        if (spawnedCube != null)
+        {
+            Renderer cubeRenderer = spawnedCube.GetComponent<Renderer>();
+            if (cubeRenderer != null)
+            {
+                // Toggle the color
+                cubeRenderer.material.color = isColor1 ? color2 : color1;
+                isColor1 = !isColor1;
+            }
+            else
+            {
+                Debug.LogError("The cube does not have a Renderer component.");
+            }
+        }
+        else
+        {
+            Debug.LogError("No cube has been spawned yet.");
+        }
     }
 }
