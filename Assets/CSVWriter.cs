@@ -1,15 +1,20 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CSVWriter : MonoBehaviour
 {
     private string filePath;
+    public int participantID = 0;
 
     void Start()
     {
-        // Set the file path at the start of the application
-        filePath = Application.persistentDataPath + "/data.csv";
+        // Generate the file path dynamically at the start of the application
+        string sceneName = SceneManager.GetActiveScene().name;
+        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        filePath = Path.Combine(Application.persistentDataPath, $"{participantID}_{sceneName}_{timestamp}.csv");
 
         // Optionally, you can clear the existing file to start fresh
         // ResetCSV(); // Uncomment this if you need a fresh start each time

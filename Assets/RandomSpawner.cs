@@ -10,8 +10,26 @@ public class RandomSpawner : MonoBehaviour
 
     private Dictionary<Vector3, string> spawnedObjects = new Dictionary<Vector3, string>();
 
-    void Start()
+    
+
+    public void LoadSpawnedObjects()
     {
+        int count = PlayerPrefs.GetInt("SpawnedObjectCount", 0);
+        for (int i = 0; i < count; i++)
+        {
+            float x = PlayerPrefs.GetFloat($"SpawnedObject_{i}_PosX");
+            float y = PlayerPrefs.GetFloat($"SpawnedObject_{i}_PosY");
+            float z = PlayerPrefs.GetFloat($"SpawnedObject_{i}_PosZ");
+            string prefabName = PlayerPrefs.GetString($"SpawnedObject_{i}_Name");
+
+            GameObject prefab = prefabs.Find(p => p.name == prefabName);
+            if (prefab != null)
+            {
+                Vector3 position = new Vector3(x, y, z);
+                GameObject spawnedObject = Instantiate(prefab, position, Quaternion.identity);
+                spawnedObjects[position] = prefab.name;
+            }
+        }
     }
 
     public void SpawnObjects()
@@ -83,6 +101,21 @@ public class RandomSpawner : MonoBehaviour
                 Debug.LogWarning("Position " + prefabPosition.position + " is too close to another object.");
             }
         }
+    }
+
+    public void SaveSpawnedObjects()
+    {
+        int count = 0;
+        foreach (var entry in spawnedObjects)
+        {
+            PlayerPrefs.SetFloat($"SpawnedObject_{count}_PosX", entry.Key.x);
+            PlayerPrefs.SetFloat($"SpawnedObject_{count}_PosY", entry.Key.y);
+            PlayerPrefs.SetFloat($"SpawnedObject_{count}_PosZ", entry.Key.z);
+            PlayerPrefs.SetString($"SpawnedObject_{count}_Name", entry.Value);
+            count++;
+        }
+        PlayerPrefs.SetInt("SpawnedObjectCount", count);
+        PlayerPrefs.Save();
     }
 
     public Dictionary<Vector3, string> GetSpawnedPositionsAndNames()

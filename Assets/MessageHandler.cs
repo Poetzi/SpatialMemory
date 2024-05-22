@@ -42,14 +42,23 @@ public class MessageHandler : MonoBehaviour
     {
         vrServer.OnMessageReceived += HandleMessage;
         startObjectSpawner.SpawnCube();
-        if(randomSpawns)
-        {
-            spawner.SpawnObjects();
-        }
-        else
-        {
-            spawner.SpawnObjectsAtSpecificPositions(customPrefabPositions);
-        }        
+        
+            if (PlayerPrefs.HasKey("SpawnedObjectCount"))
+            {
+                spawner.LoadSpawnedObjects();
+            }
+            else
+            {
+                if (randomSpawns)
+                {
+                    spawner.SpawnObjects();
+                }
+                else
+                {
+                    spawner.SpawnObjectsAtSpecificPositions(customPrefabPositions);
+                }
+            }
+        
         nameDisplayHandler.InitializeNames();
     }
 
@@ -82,8 +91,9 @@ public class MessageHandler : MonoBehaviour
         if (clickCount % 2 == 1) // Odd clicks
         {
             PerformActionsAndLog();
+            spawner.SaveSpawnedObjects(); // Save positions before transition
             vrServer.OnMessageReceived -= HandleMessage;
-            StartCoroutine(sceneTransitionManager.TransitionToScene(0));
+            StartCoroutine(sceneTransitionManager.TransitionToScene(2));
         }
         else // Even clicks
         {
@@ -122,7 +132,7 @@ public class MessageHandler : MonoBehaviour
             // Define the header for the CSV based on the data points being collected
             List<string> header = new List<string>
         {
-            "StartObjectX", "StartObjectY", "StartObjectZ", "Object", "Target",
+            "TargetX", "TargetY", "TargetZ", "Object", "Target",
             "TimeElapsed", "ClickCount", "IndexTipX", "IndexTipY", "IndexTipZ",
             "StartObjectIndexTipX", "StartObjectIndexTipY", "StartObjectIndexTipZ"
         };
