@@ -13,9 +13,11 @@ public class MessageHandler : MonoBehaviour
     public CSVWriter csvWriter;
     public SceneTransitionManager sceneTransitionManager;
     public Timer timer;
+    public ClearPlayerPrefs clearPlayerPrefs;
     public bool randomSpawns = true;
     public List<PrefabPosition> customPrefabPositions;
     private bool debug = true;
+    public int sceneChangeId;
 
     private int clickCount = 0; // Track the number of clicks
 
@@ -93,7 +95,11 @@ public class MessageHandler : MonoBehaviour
             PerformActionsAndLog();
             spawner.SaveSpawnedObjects(); // Save positions before transition
             vrServer.OnMessageReceived -= HandleMessage;
-            StartCoroutine(sceneTransitionManager.TransitionToScene(2));
+            if(clearPlayerPrefs != null)
+            {
+                clearPlayerPrefs.ClearSavedData();
+            }
+            StartCoroutine(sceneTransitionManager.TransitionToScene(sceneChangeId));
         }
         else // Even clicks
         {
