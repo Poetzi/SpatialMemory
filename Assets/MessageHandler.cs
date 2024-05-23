@@ -16,7 +16,7 @@ public class MessageHandler : MonoBehaviour
     public ClearPlayerPrefs clearPlayerPrefs;
     public bool randomSpawns = true;
     public List<PrefabPosition> customPrefabPositions;
-    private bool debug = true;
+    private bool debug = false;
     public int sceneChangeId;
 
     private int clickCount = 0; // Track the number of clicks
