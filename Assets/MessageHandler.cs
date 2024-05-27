@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Globalization;
 using static UnityEditor.PlayerSettings;
+using UnityEditor;
 
 public class MessageHandler : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class MessageHandler : MonoBehaviour
     public CSVWriter csvWriter;
     public SceneTransitionManager sceneTransitionManager;
     public Timer timer;
+    public DrawGizmo drawGizmo;
     public ClearPlayerPrefs clearPlayerPrefs;
     public bool randomSpawns = true;
     public List<PrefabPosition> customPrefabPositions;
@@ -118,6 +120,8 @@ public class MessageHandler : MonoBehaviour
             // Store the index tip position on even clicks
             evenClickIndexTipPosition = indexTipPosition;
             evenClickPositionCaptured = true; // Mark that the position has been captured
+            // Log the middle point of the box
+            LogBoxCenter();
             // Log if the even click is inside the target object
             LogIfInsideTargetObject(indexTipPosition);
             // Find the nearest object and log it
@@ -132,6 +136,14 @@ public class MessageHandler : MonoBehaviour
         
     }
 
+    private void LogBoxCenter()
+    {
+        Vector3 boxCenter = drawGizmo.GetBoxCenter();
+        collectedData.Add(boxCenter.x.ToString(dotCulture));
+        collectedData.Add(boxCenter.y.ToString(dotCulture));
+        collectedData.Add(boxCenter.z.ToString(dotCulture));
+    }
+
 
     private bool isCSVInitialized = false;
 
@@ -142,10 +154,10 @@ public class MessageHandler : MonoBehaviour
             // Define the header for the CSV based on the data points being collected
             List<string> header = new List<string>
         {
-                "IsInsideTargetObject", "NearestObjectX", "NearestObjectY", "NearestObjectZ", "NearestObjectName", "TargetX", "TargetY", "TargetZ", "Object", "Target",
+                "BoxCenterX", "BoxCenterY", "BoxCenterZ", "IsInsideTargetObject", "NearestObjectX", "NearestObjectY", "NearestObjectZ", "NearestObjectName", "TargetX", "TargetY", "TargetZ", "Object", "Target",
                 "TimeElapsed", "ClickCount", "IndexTipX", "IndexTipY", "IndexTipZ",
-                "StartObjectIndexTipX", "StartObjectIndexTipY", "StartObjectIndexTipZ",
-                
+                "StartObjectIndexTipX", "StartObjectIndexTipY", "StartObjectIndexTipZ", "TrialNumber",
+
         };
 
             // Write the header to the CSV
@@ -191,6 +203,9 @@ public class MessageHandler : MonoBehaviour
             collectedData.Add("");
             collectedData.Add("");
         }
+
+        // Add trial number
+        collectedData.Add(nameDisplayHandler.GetCurrentTrialNumber().ToString());
 
         // Write the collected data to CSV in one line
         csvWriter.AddDataToCSV(collectedData);

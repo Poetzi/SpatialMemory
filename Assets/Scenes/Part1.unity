@@ -10152,6 +10152,7 @@ MonoBehaviour:
   csvWriter: {fileID: 1946357754}
   sceneTransitionManager: {fileID: 1946357756}
   timer: {fileID: 1946357755}
+  drawGizmo: {fileID: 1946357750}
   clearPlayerPrefs: {fileID: 0}
   randomSpawns: 1
   customPrefabPositions:
@@ -10211,7 +10212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayText: {fileID: 566987853}
   spawner: {fileID: 1946357751}
-  iterations: 1
+  iterations: 3
 --- !u!114 &1946357753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10240,6 +10241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   participantID: 0
+  blockNumber: 0
 --- !u!114 &1946357755
 MonoBehaviour:
   m_ObjectHideFlags: 0

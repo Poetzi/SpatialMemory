@@ -13,6 +13,7 @@ public class NameDisplayHandler : MonoBehaviour
     private int currentNameIndex = 0;
     private int totalIterationsDone = 0;
     private bool isActive = true; // Flag to control the display process
+    private int trialNumber = 0; // Track the trial number
 
     public void InitializeNames()
     {
@@ -36,6 +37,7 @@ public class NameDisplayHandler : MonoBehaviour
         {
             displayText.text = names[0];
             currentNameIndex = 1; // Start from the next name for the next call to DisplayNextName
+            trialNumber = 1; // Initialize the trial number
         }
         else
         {
@@ -53,6 +55,7 @@ public class NameDisplayHandler : MonoBehaviour
         displayText.text = names[currentNameIndex];
         Debug.Log("Index " + currentNameIndex);
         currentNameIndex++;
+        trialNumber++; // Increment the trial number
 
         if (currentNameIndex >= names.Count)
         {
@@ -95,6 +98,7 @@ public class NameDisplayHandler : MonoBehaviour
         isActive = true;
         totalIterationsDone = 0;
         currentNameIndex = 0;
+        trialNumber = 0; // Reset the trial number
         ShuffleNames();
     }
 
@@ -109,5 +113,10 @@ public class NameDisplayHandler : MonoBehaviour
         if (displayText != null)
             return displayText.text;
         return "Display Text is not assigned.";
+    }
+
+    public int GetCurrentTrialNumber()
+    {
+        return trialNumber;
     }
 }

@@ -8,9 +8,13 @@ public class CSVWriter : MonoBehaviour
 {
     private string filePath;
     public int participantID = 0;
+    public int blockNumber = 0; 
 
     void Start()
     {
+        // Set block number based on the scene
+        blockNumber = SceneManager.GetActiveScene().buildIndex;
+
         // Generate the file path dynamically at the start of the application
         string sceneName = SceneManager.GetActiveScene().name;
         string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
@@ -23,6 +27,7 @@ public class CSVWriter : MonoBehaviour
     // Method to write the header to the CSV file
     public void WriteHeader(List<string> headerColumns)
     {
+        headerColumns.Insert(0, "BlockNumber"); // Add BlockNumber as the first column
         string header = string.Join(";", headerColumns); // Combine the header titles with commas
         // Write or overwrite the header to the file
         using (StreamWriter writer = new StreamWriter(filePath, false)) // false to overwrite existing content
@@ -43,6 +48,7 @@ public class CSVWriter : MonoBehaviour
     // Overloaded method for adding multiple fields in a row
     public void AddDataToCSV(List<string> rowData)
     {
+        rowData.Insert(0, blockNumber.ToString()); // Add block number as the first column
         string row = string.Join(";", rowData);
         AddDataToCSV(row);
     }

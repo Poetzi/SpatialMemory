@@ -102,4 +102,9 @@ public class DrawGizmo : MonoBehaviour
         lr.startColor = Color.white;
         lr.endColor = Color.white;
     }
+
+    public Vector3 GetBoxCenter()
+    {
+        return boxCenter;
+    }
 }
