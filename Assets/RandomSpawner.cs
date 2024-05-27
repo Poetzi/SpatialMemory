@@ -7,6 +7,7 @@ public class RandomSpawner : MonoBehaviour
     public DrawGizmo gizmo;
     public List<GameObject> prefabs;
     public float minimumDistance = 0.15f; // in meters
+    private float distanceFromEdge = 0.05f; // 5 cm from the edge
 
     private Dictionary<Vector3, string> spawnedObjects = new Dictionary<Vector3, string>();
     private Dictionary<GameObject, string> spawnedGameObjects = new Dictionary<GameObject, string>(); // Store the instantiated GameObjects
@@ -34,9 +35,9 @@ public class RandomSpawner : MonoBehaviour
 
     public void SpawnObjects()
     {
-        Vector3 boxSize = gizmo.boxSize - new Vector3(minimumDistance * 2, minimumDistance * 2, minimumDistance * 2);
-        Vector3 spawnAreaMin = gizmo.boxCenter - boxSize / 2;
-        Vector3 spawnAreaMax = gizmo.boxCenter + boxSize / 2;
+        Vector3 boxSize = gizmo.boxSize;
+        Vector3 spawnAreaMin = gizmo.boxCenter - boxSize / 2 + new Vector3(distanceFromEdge, distanceFromEdge, distanceFromEdge);
+        Vector3 spawnAreaMax = gizmo.boxCenter + boxSize / 2 - new Vector3(distanceFromEdge, distanceFromEdge, distanceFromEdge);
 
         foreach (GameObject prefab in prefabs)
         {

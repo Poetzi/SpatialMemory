@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro; // Import TextMeshPro namespace
 using System.Collections;
 using System.Collections.Generic;
 
 public class NameDisplayHandler : MonoBehaviour
 {
-    public Text displayText; // Assign this in the inspector
+    public TextMeshProUGUI displayText; // Assign this in the inspector
     public RandomSpawner spawner; // Assign this to reference the RandomSpawner
     public int iterations = 1; // Number of full iterations to display names
 
