@@ -9,8 +9,7 @@ public class RandomSpawner : MonoBehaviour
     public float minimumDistance = 0.15f; // in meters
 
     private Dictionary<Vector3, string> spawnedObjects = new Dictionary<Vector3, string>();
-
-    
+    private Dictionary<GameObject, string> spawnedGameObjects = new Dictionary<GameObject, string>(); // Store the instantiated GameObjects
 
     public void LoadSpawnedObjects()
     {
@@ -28,6 +27,7 @@ public class RandomSpawner : MonoBehaviour
                 Vector3 position = new Vector3(x, y, z);
                 GameObject spawnedObject = Instantiate(prefab, position, Quaternion.identity);
                 spawnedObjects[position] = prefab.name;
+                spawnedGameObjects[spawnedObject] = prefab.name; // Store the instantiated GameObject
             }
         }
     }
@@ -45,6 +45,7 @@ public class RandomSpawner : MonoBehaviour
             {
                 GameObject spawnedObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
                 spawnedObjects[spawnPosition] = prefab.name;
+                spawnedGameObjects[spawnedObject] = prefab.name; // Store the instantiated GameObject
             }
         }
     }
@@ -95,6 +96,7 @@ public class RandomSpawner : MonoBehaviour
             {
                 GameObject spawnedObject = Instantiate(prefabPosition.prefab, prefabPosition.position, Quaternion.identity);
                 spawnedObjects[prefabPosition.position] = prefabPosition.prefab.name;
+                spawnedGameObjects[spawnedObject] = prefabPosition.prefab.name; // Store the instantiated GameObject
             }
             else
             {
@@ -121,6 +123,11 @@ public class RandomSpawner : MonoBehaviour
     public Dictionary<Vector3, string> GetSpawnedPositionsAndNames()
     {
         return new Dictionary<Vector3, string>(spawnedObjects);
+    }
+
+    public Dictionary<GameObject, string> GetSpawnedGameObjectsAndNames()
+    {
+        return new Dictionary<GameObject, string>(spawnedGameObjects);
     }
 }
 

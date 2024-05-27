@@ -16,7 +16,7 @@ public class MessageHandler : MonoBehaviour
     public ClearPlayerPrefs clearPlayerPrefs;
     public bool randomSpawns = true;
     public List<PrefabPosition> customPrefabPositions;
-    private bool debug = false;
+    private bool debug = true;
     public int sceneChangeId;
 
     private int clickCount = 0; // Track the number of clicks
@@ -118,6 +118,10 @@ public class MessageHandler : MonoBehaviour
             // Store the index tip position on even clicks
             evenClickIndexTipPosition = indexTipPosition;
             evenClickPositionCaptured = true; // Mark that the position has been captured
+            // Log if the even click is inside the target object
+            LogIfInsideTargetObject(indexTipPosition);
+            // Find the nearest object and log it
+            FindAndLogNearestObject(indexTipPosition);
             clickCount++;
         }
         else
@@ -138,9 +142,10 @@ public class MessageHandler : MonoBehaviour
             // Define the header for the CSV based on the data points being collected
             List<string> header = new List<string>
         {
-            "TargetX", "TargetY", "TargetZ", "Object", "Target",
-            "TimeElapsed", "ClickCount", "IndexTipX", "IndexTipY", "IndexTipZ",
-            "StartObjectIndexTipX", "StartObjectIndexTipY", "StartObjectIndexTipZ"
+                "IsInsideTargetObject", "NearestObjectX", "NearestObjectY", "NearestObjectZ", "NearestObjectName", "TargetX", "TargetY", "TargetZ", "Object", "Target",
+                "TimeElapsed", "ClickCount", "IndexTipX", "IndexTipY", "IndexTipZ",
+                "StartObjectIndexTipX", "StartObjectIndexTipY", "StartObjectIndexTipZ",
+                
         };
 
             // Write the header to the CSV
@@ -221,6 +226,49 @@ public class MessageHandler : MonoBehaviour
                 collectedData.Add(targetName);
             }
         }
+    }
+
+    private void FindAndLogNearestObject(Vector3 indexTipPosition)
+    {
+        var spawnedPositions = spawner.GetSpawnedPositionsAndNames();
+        Vector3 nearestObjectPosition = Vector3.zero;
+        string nearestObjectName = "";
+        float minDistance = float.MaxValue;
+
+        foreach (var pos in spawnedPositions)
+        {
+            float distance = Vector3.Distance(indexTipPosition, pos.Key);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                nearestObjectPosition = pos.Key;
+                nearestObjectName = pos.Value;
+            }
+        }
+
+        collectedData.Add(nearestObjectPosition.x.ToString(dotCulture));
+        collectedData.Add(nearestObjectPosition.y.ToString(dotCulture));
+        collectedData.Add(nearestObjectPosition.z.ToString(dotCulture));
+        collectedData.Add(nearestObjectName);
+    }
+
+    private void LogIfInsideTargetObject(Vector3 indexTipPosition)
+    {
+        var spawnedGameObjects = spawner.GetSpawnedGameObjectsAndNames();
+        string targetName = nameDisplayHandler.GetCurrentDisplayText();
+        bool isInside = false;
+
+        foreach (var obj in spawnedGameObjects)
+        {
+            Collider collider = obj.Key.GetComponent<Collider>();
+            if (collider != null && collider.bounds.Contains(indexTipPosition) && obj.Value == targetName)
+            {
+                isInside = true;
+                break;
+            }
+        }
+
+        collectedData.Add(isInside.ToString());
     }
 
     void OnDestroy()

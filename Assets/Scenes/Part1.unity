@@ -10196,7 +10196,7 @@ MonoBehaviour:
   - {fileID: 8678684680937610573, guid: 1ad4fb74efd015b4a838600945a6c81d, type: 3}
   - {fileID: 8678684680937610573, guid: 766a9f3200072ab41a43f05df977b130, type: 3}
   - {fileID: 8678684680937610573, guid: fda32df69a48dc34d9edf0a88af21b14, type: 3}
-  minimumDistance: 0.05
+  minimumDistance: 0.2
 --- !u!114 &1946357752
 MonoBehaviour:
   m_ObjectHideFlags: 0
