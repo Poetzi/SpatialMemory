@@ -20,6 +20,13 @@ public class SceneTransitionManager : MonoBehaviour
         }
     }
 
+    public void OnTransitionButtonClicked(int sceneIndex) 
+    {
+        Debug.Log("Transition button clicked");
+        StartCoroutine(TransitionToScene(sceneIndex));
+    }
+    
+
     private void OnTransitionButtonClicked()
     {
         Debug.Log("Transition button clicked");
