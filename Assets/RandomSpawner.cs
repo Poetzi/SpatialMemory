@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RandomSpawner : MonoBehaviour
 {
@@ -9,8 +10,21 @@ public class RandomSpawner : MonoBehaviour
     public float minimumDistance = 0.15f; // in meters
     private float distanceFromEdge = 0.05f; // 5 cm from the edge
 
+    public Material transparentMaterial; // Reference to the material set via the Unity Editor
+
     private Dictionary<Vector3, string> spawnedObjects = new Dictionary<Vector3, string>();
     private Dictionary<GameObject, string> spawnedGameObjects = new Dictionary<GameObject, string>(); // Store the instantiated GameObjects
+
+    void Start()
+    {
+        if (SceneManager.GetActiveScene().name.Equals("Part4"))
+        {
+            if (transparentMaterial == null)
+            {
+                Debug.LogWarning("Transparent material is not assigned. Please assign it in the Unity Editor.");
+            }
+        }
+    }
 
     public void LoadSpawnedObjects()
     {
@@ -29,6 +43,11 @@ public class RandomSpawner : MonoBehaviour
                 GameObject spawnedObject = Instantiate(prefab, position, Quaternion.identity);
                 spawnedObjects[position] = prefab.name;
                 spawnedGameObjects[spawnedObject] = prefab.name; // Store the instantiated GameObject
+
+                if (SceneManager.GetActiveScene().name.Equals("Part4"))
+                {
+                    MakeObjectTransparentAndDeactivateChildren(spawnedObject);
+                }
             }
         }
     }
@@ -47,6 +66,11 @@ public class RandomSpawner : MonoBehaviour
                 GameObject spawnedObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
                 spawnedObjects[spawnPosition] = prefab.name;
                 spawnedGameObjects[spawnedObject] = prefab.name; // Store the instantiated GameObject
+
+                if (SceneManager.GetActiveScene().name.Equals("Part4"))
+                {
+                    MakeObjectTransparentAndDeactivateChildren(spawnedObject);
+                }
             }
         }
     }
@@ -98,6 +122,11 @@ public class RandomSpawner : MonoBehaviour
                 GameObject spawnedObject = Instantiate(prefabPosition.prefab, prefabPosition.position, Quaternion.identity);
                 spawnedObjects[prefabPosition.position] = prefabPosition.prefab.name;
                 spawnedGameObjects[spawnedObject] = prefabPosition.prefab.name; // Store the instantiated GameObject
+
+                if (SceneManager.GetActiveScene().name.Equals("Part4"))
+                {
+                    MakeObjectTransparentAndDeactivateChildren(spawnedObject);
+                }
             }
             else
             {
@@ -129,6 +158,27 @@ public class RandomSpawner : MonoBehaviour
     public Dictionary<GameObject, string> GetSpawnedGameObjectsAndNames()
     {
         return new Dictionary<GameObject, string>(spawnedGameObjects);
+    }
+
+    private void MakeObjectTransparentAndDeactivateChildren(GameObject obj)
+    {
+        if (transparentMaterial == null)
+        {
+            Debug.LogWarning("Transparent material is not assigned.");
+            return;
+        }
+
+        Renderer renderer = obj.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            renderer.material = transparentMaterial;
+        }
+
+        // Deactivate all child components
+        foreach (Transform child in obj.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
     }
 }
 

@@ -705,6 +705,9 @@ MonoBehaviour:
   blockId: 0393ca30-f2a9-4865-a40f-f9a68d01c3a9
   instanceId: 6f979437-d229-4175-942e-b241ddcaf294
   version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!1 &126107282
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,6 +859,9 @@ MonoBehaviour:
   blockId: 81f55626-5fad-45e9-a1df-184f330da7ba
   instanceId: 0de01a3c-fdf1-4ddb-89f0-3f66268c03ed
   version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!1 &178012303
 GameObject:
   m_ObjectHideFlags: 0
@@ -1782,6 +1788,9 @@ MonoBehaviour:
   blockId: 5817f7c0-f2a5-45f9-a5ca-64264e0166e8
   instanceId: 179fae16-7efa-4d91-8e3b-d6147ad166e5
   version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!1 &332938905
 GameObject:
   m_ObjectHideFlags: 0
@@ -2012,6 +2021,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2458895423916540947, guid: f54012181eacade4ea242c65f804720f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2514675399181695721, guid: f54012181eacade4ea242c65f804720f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2055,6 +2068,10 @@ PrefabInstance:
     - target: {fileID: 3642352042163518208, guid: f54012181eacade4ea242c65f804720f, type: 3}
       propertyPath: m_Name
       value: OVRCameraRigInteraction
+      objectReference: {fileID: 0}
+    - target: {fileID: 4627295112507078528, guid: f54012181eacade4ea242c65f804720f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2688,6 +2705,9 @@ MonoBehaviour:
   blockId: e47682b9-c270-40b1-b16d-90b627a5ce1b
   instanceId: 19b639d5-ebab-42fa-9f69-19aa192dfaa8
   version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!1 &519409578
 GameObject:
   m_ObjectHideFlags: 0
@@ -3896,6 +3916,9 @@ MonoBehaviour:
   blockId: 5817f7c0-f2a5-45f9-a5ca-64264e0166e8
   instanceId: 7a3f126b-9d52-493c-b96c-296b440dcc6f
   version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!1 &689054519
 GameObject:
   m_ObjectHideFlags: 0
@@ -4711,6 +4734,9 @@ MonoBehaviour:
   blockId: 6b67162c-2460-4766-a931-980388647573
   instanceId: f241117c-08ee-4622-9cb3-ebac53a4b51a
   version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!1 &826147064
 GameObject:
   m_ObjectHideFlags: 0
@@ -5457,6 +5483,9 @@ MonoBehaviour:
   blockId: 8b26b298-7bf4-490e-b245-a039c0184303
   instanceId: 706c0182-36e5-44be-a283-2c6aebae3049
   version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!1 &913529267
 GameObject:
   m_ObjectHideFlags: 0
@@ -5634,6 +5663,9 @@ MonoBehaviour:
   blockId: 6b67162c-2460-4766-a931-980388647573
   instanceId: 509ee158-7b13-44cf-9d88-221439a032b4
   version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!1 &998030639
 GameObject:
   m_ObjectHideFlags: 0
@@ -9078,6 +9110,9 @@ MonoBehaviour:
   blockId: f10154e0-16b2-492f-97d0-6639f69e7df6
   instanceId: d783eec6-9e35-4640-9d16-c783e3224d7b
   version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!1 &1644739933
 GameObject:
   m_ObjectHideFlags: 0
@@ -10207,7 +10242,7 @@ MonoBehaviour:
   sceneTransitionManager: {fileID: 1946357756}
   timer: {fileID: 1946357755}
   drawGizmo: {fileID: 1946357750}
-  clearPlayerPrefs: {fileID: 1946357757}
+  clearPlayerPrefs: {fileID: 0}
   randomSpawns: 0
   customPrefabPositions:
   - prefab: {fileID: 8678684680937610573, guid: 3483ce041f6e3e742b785d3f57fd9ccb, type: 3}
@@ -10218,7 +10253,7 @@ MonoBehaviour:
     position: {x: 2, y: 2, z: 2}
   - prefab: {fileID: 8678684680937610573, guid: fda32df69a48dc34d9edf0a88af21b14, type: 3}
     position: {x: 0.3, y: 1, z: 0}
-  sceneChangeId: 0
+  sceneChangeId: 6
 --- !u!114 &1946357750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10266,7 +10301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayText: {fileID: 520486695}
   spawner: {fileID: 1946357751}
-  iterations: 3
+  iterations: 1
 --- !u!114 &1946357753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10830,6 +10865,9 @@ MonoBehaviour:
   blockId: 8b26b298-7bf4-490e-b245-a039c0184303
   instanceId: 6dd6887c-95a2-4fd4-afc1-730728649b44
   version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!1 &2103533125
 GameObject:
   m_ObjectHideFlags: 0

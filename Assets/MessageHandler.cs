@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Globalization;
 using static UnityEditor.PlayerSettings;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class MessageHandler : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class MessageHandler : MonoBehaviour
         vrServer.OnMessageReceived += HandleMessage;
         startObjectSpawner.SpawnCube();
         
-            if (PlayerPrefs.HasKey("SpawnedObjectCount"))
+        if (PlayerPrefs.HasKey("SpawnedObjectCount"))
             {
                 spawner.LoadSpawnedObjects();
             }
@@ -100,6 +101,10 @@ public class MessageHandler : MonoBehaviour
             if(clearPlayerPrefs != null)
             {
                 clearPlayerPrefs.ClearSavedData();
+            }
+            if (SceneManager.GetActiveScene().name.Equals("Part0"))
+            {
+                csvWriter.DeleteCSV();
             }
             StartCoroutine(sceneTransitionManager.TransitionToScene(sceneChangeId));
         }

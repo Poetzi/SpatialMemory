@@ -10254,7 +10254,7 @@ MonoBehaviour:
     position: {x: 2, y: 2, z: 2}
   - prefab: {fileID: 8678684680937610573, guid: fda32df69a48dc34d9edf0a88af21b14, type: 3}
     position: {x: 3, y: 3, z: 3}
-  sceneChangeId: 4
+  sceneChangeId: 8
 --- !u!114 &1946357750
 MonoBehaviour:
   m_ObjectHideFlags: 0

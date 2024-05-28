@@ -54,11 +54,20 @@ public class CSVWriter : MonoBehaviour
     }
 
     // Optional: Method to clear the existing CSV file
-    private void ResetCSV()
+    public void ResetCSV()
     {
         using (StreamWriter writer = new StreamWriter(filePath, false)) // false to overwrite existing content
         {
             writer.Flush();
+        }
+    }
+
+    // Method to delete the CSV file
+    public void DeleteCSV()
+    {
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
         }
     }
 }
