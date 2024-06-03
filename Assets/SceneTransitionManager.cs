@@ -8,11 +8,13 @@ public class SceneTransitionManager : MonoBehaviour
     [SerializeField] private int sceneToLoadIndex;
     [SerializeField] private Button transitionButton;
 
+    private bool isTransitioning = false;
+
     private void Start()
     {
         if (transitionButton != null)
         {
-            transitionButton.onClick.AddListener(OnTransitionButtonClicked);
+            transitionButton.onClick.AddListener(() => StartCoroutine(OnTransitionButtonClicked(sceneToLoadIndex)));
         }
         else
         {
@@ -20,33 +22,58 @@ public class SceneTransitionManager : MonoBehaviour
         }
     }
 
-    public void OnTransitionButtonClicked(int sceneIndex)
-    {
-        Debug.Log("Transition button clicked");
-        StartCoroutine(TransitionToScene(sceneIndex));
-    }
-
-
-    private void OnTransitionButtonClicked()
-    {
-        Debug.Log("Transition button clicked");
-        StartCoroutine(TransitionToScene(sceneToLoadIndex));
-    }
-
     // Method to transition to the scene using the specified index
-    public IEnumerator TransitionToScene(int sceneIndex)
+    public IEnumerator OnTransitionButtonClicked(int sceneIndex)
     {
-        // Load the scene synchronously by build index
+        if (isTransitioning)
+        {
+            Debug.LogWarning("Transition is already in progress");
+            yield break;
+        }
+
+        isTransitioning = true;
         Debug.Log("Loading scene index: " + sceneIndex);
-        SceneManager.LoadScene(sceneIndex);
 
-        // Yield return null to allow Unity to process the scene change
         yield return null;
-    }
 
-    // Overloaded method to transition to the scene using the default index
-    public IEnumerator TransitionToScene()
-    {
-        yield return TransitionToScene(sceneToLoadIndex);
+        // Begin to load the Scene you specify
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
+
+        // Don't let the Scene activate until you allow it to
+        asyncOperation.allowSceneActivation = false;
+
+        // Check if asyncOperation is null
+        if (asyncOperation == null)
+        {
+            Debug.LogError("AsyncOperation is null. Scene loading failed.");
+            isTransitioning = false;
+            yield break;
+        }
+
+        Debug.Log("Pro :" + asyncOperation.progress);
+
+        // When the load is still in progress, output the Text and progress bar
+        while (!asyncOperation.isDone)
+        {
+            // Output the current progress
+            Debug.Log("Loading progress: " + (asyncOperation.progress * 100) + "%");
+
+            // Check if the load has finished
+            if (asyncOperation.progress >= 0.9f)
+            {
+                // Change the Text to show the Scene is ready
+                Debug.Log("Scene is ready");
+
+                yield return new WaitForSeconds(1);
+
+                // Activate the Scene
+                asyncOperation.allowSceneActivation = true;
+            }
+
+            yield return null;
+        }
+
+        Debug.Log("Scene loaded successfully");
+        isTransitioning = false;
     }
 }

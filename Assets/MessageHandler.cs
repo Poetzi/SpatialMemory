@@ -19,7 +19,7 @@ public class MessageHandler : MonoBehaviour
     public ClearPlayerPrefs clearPlayerPrefs;
     public bool randomSpawns = true;
     public List<PrefabPosition> customPrefabPositions;
-    private bool debug = false;
+    private bool debug = true;
     public int sceneChangeId;
 
     private int clickCount = 0; // Track the number of clicks
@@ -106,7 +106,7 @@ public class MessageHandler : MonoBehaviour
             {
                 csvWriter.DeleteCSV();
             }
-            StartCoroutine(sceneTransitionManager.TransitionToScene(sceneChangeId));
+            StartCoroutine(sceneTransitionManager.OnTransitionButtonClicked(sceneChangeId));
         }
         else // Even clicks
         {
@@ -116,7 +116,7 @@ public class MessageHandler : MonoBehaviour
 
     private void HandleEvenClick()
     {
-        Vector3 indexTipPosition = debug ? new Vector3(0.3f, 1, 0) : handPositionManager.GetIndexTipPosition();
+        Vector3 indexTipPosition = debug ? new Vector3(0.4f, 0.75f, 0) : handPositionManager.GetIndexTipPosition();
 
         if (startObjectSpawner.IsInside(indexTipPosition))
         {
@@ -181,7 +181,7 @@ public class MessageHandler : MonoBehaviour
         // Stop the timer and get the elapsed time
         float time = timer.EndTimerAndGetElapsedTime();
         startObjectSpawner.SwitchColor();
-        Vector3 indexTipPosition = debug ? new Vector3(0.3f, 1, 0) : handPositionManager.GetIndexTipPosition();
+        Vector3 indexTipPosition = debug ? new Vector3(0.4f, 0.75f, 0) : handPositionManager.GetIndexTipPosition();
 
         // Log if the even click is inside the target object
         LogIfInsideTargetObject(indexTipPosition);
@@ -260,8 +260,8 @@ public class MessageHandler : MonoBehaviour
         foreach (var pos in spawnedPositions)
         {
             float distance = Vector3.Distance(indexTipPosition, pos.Key);
-            Debug.Log($"Checking index: {indexTipPosition}");
-            Debug.Log($"Checking object: {pos.Value} at position: {pos.Key} with distance: {distance}");
+            //Debug.Log($"Checking index: {indexTipPosition}");
+            //Debug.Log($"Checking object: {pos.Value} at position: {pos.Key} with distance: {distance}");
             if (distance < minDistance)
             {
                 minDistance = distance;
@@ -270,7 +270,7 @@ public class MessageHandler : MonoBehaviour
             }
         }
 
-        Debug.Log($"Nearest object is {nearestObjectName} at position {nearestObjectPosition}");
+        //Debug.Log($"Nearest object is {nearestObjectName} at position {nearestObjectPosition}");
 
         collectedData.Add(nearestObjectPosition.x.ToString(dotCulture));
         collectedData.Add(nearestObjectPosition.y.ToString(dotCulture));
@@ -290,10 +290,10 @@ public class MessageHandler : MonoBehaviour
             Collider collider = obj.Key.GetComponent<Collider>();
             if (collider != null)
             {
-                Debug.Log($"Checking object: {obj.Value} with collider bounds: {collider.bounds}");
+                //Debug.Log($"Checking object: {obj.Value} with collider bounds: {collider.bounds}");
                 if (collider.bounds.Contains(indexTipPosition) && obj.Value == targetName)
                 {
-                    Debug.Log($"Index tip is inside the target object: {targetName}");
+                    //Debug.Log($"Index tip is inside the target object: {targetName}");
                     isInside = true;
                     break;
                 }
