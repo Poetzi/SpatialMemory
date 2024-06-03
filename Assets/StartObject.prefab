@@ -222,6 +222,9 @@ MonoBehaviour:
   blockId: f8766c17-aaf8-4b55-9431-de8deea83842
   instanceId: 6716622a-704f-4a7a-87bb-d93cdf73388d
   version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!114 &678235022245639499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +244,9 @@ MonoBehaviour:
   _twoGrabTransformer: {fileID: 0}
   _targetTransform: {fileID: 360858459470807994}
   _maxGrabPoints: -1
+  _rigidbody: {fileID: 0}
+  _kinematicWhileSelected: 1
+  _throwWhenUnselected: 1
 --- !u!114 &3940544901171265361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,7 +356,7 @@ Transform:
   m_GameObject: {fileID: 8678684680937610573}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 1, z: 0}
+  m_LocalPosition: {x: 0.4, y: 0.75, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -373,6 +379,9 @@ MonoBehaviour:
   blockId: 7358e191-33b7-43ca-b066-b2f00531ac66
   instanceId: 1976b555-689c-47f1-aed6-48605e31f9a3
   version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
 --- !u!33 &1499466575493583831
 MeshFilter:
   m_ObjectHideFlags: 0

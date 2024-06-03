@@ -19,7 +19,7 @@ public class MessageHandler : MonoBehaviour
     public ClearPlayerPrefs clearPlayerPrefs;
     public bool randomSpawns = true;
     public List<PrefabPosition> customPrefabPositions;
-    private bool debug = true;
+    private bool debug = false;
     public int sceneChangeId;
 
     private int clickCount = 0; // Track the number of clicks
@@ -127,11 +127,8 @@ public class MessageHandler : MonoBehaviour
             evenClickPositionCaptured = true; // Mark that the position has been captured
             // Log the middle point of the box
             LogBoxCenter();
-            // Log if the even click is inside the target object
-            LogIfInsideTargetObject(indexTipPosition);
-            // Find the nearest object and log it
-            FindAndLogNearestObject(indexTipPosition);
             clickCount++;
+
         }
         else
         {
@@ -159,8 +156,8 @@ public class MessageHandler : MonoBehaviour
             // Define the header for the CSV based on the data points being collected
             List<string> header = new List<string>
         {
-                "BoxCenterX", "BoxCenterY", "BoxCenterZ", "IsInsideTargetObject", "NearestObjectX", "NearestObjectY", "NearestObjectZ", "NearestObjectName", "TargetX", "TargetY", "TargetZ", "Object", "Target",
-                "TimeElapsed", "ClickCount", "IndexTipX", "IndexTipY", "IndexTipZ",
+                "BoxCenterX", "BoxCenterY", "BoxCenterZ", "TargetX", "TargetY", "TargetZ", "Object", "Target", "IsInsideTargetObject", "NearestObjectX", "NearestObjectY", "NearestObjectZ", "NearestObjectName",
+                "DistanceIndexTipTarget", "TimeElapsed", "ClickCount", "IndexTipX", "IndexTipY", "IndexTipZ",
                 "StartObjectIndexTipX", "StartObjectIndexTipY", "StartObjectIndexTipZ", "TrialNumber",
 
         };
@@ -185,6 +182,11 @@ public class MessageHandler : MonoBehaviour
         float time = timer.EndTimerAndGetElapsedTime();
         startObjectSpawner.SwitchColor();
         Vector3 indexTipPosition = debug ? new Vector3(0.3f, 1, 0) : handPositionManager.GetIndexTipPosition();
+
+        // Log if the even click is inside the target object
+        LogIfInsideTargetObject(indexTipPosition);
+        // Find the nearest object and log it
+        FindAndLogNearestObject(indexTipPosition);
 
         // Add additional data to the collected data
         collectedData.Add(time.ToString(dotCulture));
@@ -258,6 +260,8 @@ public class MessageHandler : MonoBehaviour
         foreach (var pos in spawnedPositions)
         {
             float distance = Vector3.Distance(indexTipPosition, pos.Key);
+            Debug.Log($"Checking index: {indexTipPosition}");
+            Debug.Log($"Checking object: {pos.Value} at position: {pos.Key} with distance: {distance}");
             if (distance < minDistance)
             {
                 minDistance = distance;
@@ -266,10 +270,13 @@ public class MessageHandler : MonoBehaviour
             }
         }
 
+        Debug.Log($"Nearest object is {nearestObjectName} at position {nearestObjectPosition}");
+
         collectedData.Add(nearestObjectPosition.x.ToString(dotCulture));
         collectedData.Add(nearestObjectPosition.y.ToString(dotCulture));
         collectedData.Add(nearestObjectPosition.z.ToString(dotCulture));
         collectedData.Add(nearestObjectName);
+        collectedData.Add(minDistance.ToString(dotCulture));
     }
 
     private void LogIfInsideTargetObject(Vector3 indexTipPosition)
@@ -281,10 +288,15 @@ public class MessageHandler : MonoBehaviour
         foreach (var obj in spawnedGameObjects)
         {
             Collider collider = obj.Key.GetComponent<Collider>();
-            if (collider != null && collider.bounds.Contains(indexTipPosition) && obj.Value == targetName)
+            if (collider != null)
             {
-                isInside = true;
-                break;
+                Debug.Log($"Checking object: {obj.Value} with collider bounds: {collider.bounds}");
+                if (collider.bounds.Contains(indexTipPosition) && obj.Value == targetName)
+                {
+                    Debug.Log($"Index tip is inside the target object: {targetName}");
+                    isInside = true;
+                    break;
+                }
             }
         }
 

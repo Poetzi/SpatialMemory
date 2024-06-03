@@ -10267,7 +10267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 902ded5dcf38fdb428b9ecb1e8acdb63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxCenter: {x: 0, y: 1, z: 1}
+  boxCenter: {x: 0, y: 1.5, z: 0.46}
   boxSize: {x: 0.91, y: 0.91, z: 0.46}
 --- !u!114 &1946357751
 MonoBehaviour:
@@ -10283,11 +10283,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gizmo: {fileID: 1946357750}
   prefabs:
-  - {fileID: 8678684680937610573, guid: 3483ce041f6e3e742b785d3f57fd9ccb, type: 3}
-  - {fileID: 8678684680937610573, guid: 1ad4fb74efd015b4a838600945a6c81d, type: 3}
-  - {fileID: 8678684680937610573, guid: 766a9f3200072ab41a43f05df977b130, type: 3}
-  - {fileID: 8678684680937610573, guid: fda32df69a48dc34d9edf0a88af21b14, type: 3}
+  - {fileID: 6650868726693372779, guid: ffb056fc8d5ef764289835def8e7ddbc, type: 3}
+  - {fileID: 6650868726693372779, guid: 9dddb0d1a696b064081c7d930172479f, type: 3}
+  - {fileID: 6650868726693372779, guid: eb1ca3b65e3bdff4985be8ea81213c0e, type: 3}
+  - {fileID: 6650868726693372779, guid: f0ce65438442f934b95c5b84d6809b4f, type: 3}
   minimumDistance: 0.2
+  transparentMaterial: {fileID: 0}
 --- !u!114 &1946357752
 MonoBehaviour:
   m_ObjectHideFlags: 0
