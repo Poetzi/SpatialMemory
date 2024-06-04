@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro; // Import TextMeshPro namespace
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class NameDisplayHandler : MonoBehaviour
 {
@@ -32,18 +33,38 @@ public class NameDisplayHandler : MonoBehaviour
         PopulateNamesList();
         ShuffleNames();
 
-        // Set the display text to the first name in the shuffled list if there are any names
-        if (names.Count > 0)
+        // Check if the scene is "Part4" to determine behavior
+        if (SceneManager.GetActiveScene().name.Equals("Part4"))
         {
-            displayText.text = names[0];
-            currentNameIndex = 1; // Start from the next name for the next call to DisplayNextName
-            trialNumber = 1; // Initialize the trial number
+            // Set the display text to the first name in the shuffled list if there are any names
+            if (names.Count > 0)
+            {
+                displayText.text = names[0];
+                currentNameIndex = 0; // Start from the first name for the next call to DisplayNextName
+                trialNumber = 0; // Initialize the trial number
+            }
+            else
+            {
+                Debug.LogError("No names available to display.");
+            }
         }
         else
         {
-            Debug.LogError("No names available to display.");
+            // Original behavior for other parts
+            // Set the display text to the first name in the shuffled list if there are any names
+            if (names.Count > 0)
+            {
+                displayText.text = names[0];
+                currentNameIndex = 1; // Start from the next name for the next call to DisplayNextName
+                trialNumber = 1; // Initialize the trial number
+            }
+            else
+            {
+                Debug.LogError("No names available to display.");
+            }
         }
     }
+
 
     public void DisplayNextName()
     {
@@ -72,6 +93,43 @@ public class NameDisplayHandler : MonoBehaviour
             }
         }
     }
+
+    public void UpdateCurrentName()
+    {
+        if (!isActive || names.Count == 0)
+        {
+            return; // Stop function if the handler is inactive or there are no names
+        }
+
+        displayText.text = names[currentNameIndex];
+        Debug.Log("Index " + currentNameIndex);
+        trialNumber++; // Increment the trial number
+
+        // Check if the current name has been displayed 12 times
+        if (trialNumber % 12 == 0)
+        {
+            currentNameIndex++; // Move to the next name
+
+            if (currentNameIndex >= names.Count)
+            {
+                currentNameIndex = 0;
+                totalIterationsDone++;
+
+                if (totalIterationsDone >= iterations)
+                {
+                    isActive = false; // Stop changing names after reaching the iteration limit
+                    Debug.Log("Completed all iterations of name display.");
+                }
+                else
+                {
+                    ShuffleNames(); // Shuffle names for the next iteration if necessary
+                }
+            }
+        }
+    }
+
+
+
 
     private void PopulateNamesList()
     {

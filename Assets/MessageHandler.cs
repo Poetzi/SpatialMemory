@@ -51,7 +51,7 @@ public class MessageHandler : MonoBehaviour
         if (PlayerPrefs.HasKey("SpawnedObjectCount"))
             {
                 spawner.LoadSpawnedObjects();
-            }
+                        }
             else
             {
                 if (randomSpawns)
@@ -69,6 +69,7 @@ public class MessageHandler : MonoBehaviour
 
     private void HandleMessage(string message)
     {
+        
         if (nameDisplayHandler.IsIterationComplete())
         {
             HandleCompletedIteration();
@@ -220,8 +221,18 @@ public class MessageHandler : MonoBehaviour
         // Increment the click count for next use
         clickCount++;
 
-        // Display the next name on the list
-        nameDisplayHandler.DisplayNextName();
+        if (SceneManager.GetActiveScene().name.Equals("Part4"))
+        {
+            //show the names 12 times
+            nameDisplayHandler.UpdateCurrentName();
+        }
+        else
+        {
+            // Display the next name on the list
+            nameDisplayHandler.DisplayNextName();
+        }
+
+        
 
         // Clear the collected data list for the next round of data collection
         collectedData.Clear();
