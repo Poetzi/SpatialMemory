@@ -10392,7 +10392,7 @@ MonoBehaviour:
   - {fileID: 6650868726693372779, guid: ae9fa9f53d6e79c4cbd9b940b284f466, type: 3}
   - {fileID: 6650868726693372779, guid: 5319dfb1481fa194b9abd41c3726fa09, type: 3}
   minimumDistance: 0.2
-  transparentMaterial: {fileID: 0}
+  transparentMaterial: {fileID: 2100000, guid: 9981756017cffd542ba9139644d87d77, type: 2}
 --- !u!114 &1946357752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10407,7 +10407,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayText: {fileID: 1575953724}
   spawner: {fileID: 1946357751}
-  iterations: 4
+  iterations: 12
+  randomSpawner: {fileID: 0}
 --- !u!114 &1946357753
 MonoBehaviour:
   m_ObjectHideFlags: 0

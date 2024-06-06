@@ -19,8 +19,8 @@ public class MessageHandler : MonoBehaviour
     public ClearPlayerPrefs clearPlayerPrefs;
     public bool randomSpawns = true;
     public List<PrefabPosition> customPrefabPositions;
-    private bool debug = false;
-    private Vector3 debugVector = new Vector3(0, 0.95f, 0.2f);
+    private bool debug = true;
+    private Vector3 debugVector = new Vector3(0, 1.16f, 0.38f);
     public int sceneChangeId;
 
     private int clickCount = 0; // Track the number of clicks
@@ -160,7 +160,7 @@ public class MessageHandler : MonoBehaviour
             List<string> header = new List<string>
         {
                 "BoxCenterX", "BoxCenterY", "BoxCenterZ", "TargetX", "TargetY", "TargetZ", "Object", "Target", "IsInsideTargetObject", "NearestObjectX", "NearestObjectY", "NearestObjectZ", "NearestObjectName",
-                "DistanceIndexTipTarget", "TimeElapsed", "ClickCount", "IndexTipX", "IndexTipY", "IndexTipZ",
+                 "TimeElapsed", "ClickCount", "IndexTipX", "IndexTipY", "IndexTipZ", "DistanceIndexTipTarget",
                 "StartObjectIndexTipX", "StartObjectIndexTipY", "StartObjectIndexTipZ", "TrialNumber",
 
         };
@@ -175,6 +175,7 @@ public class MessageHandler : MonoBehaviour
 
     private void PerformActionsAndLog()
     {
+        Debug.Log("PerformActionsAndLog");
         // Ensure the CSV is ready to log data
         InitializeCSV();
 
@@ -198,6 +199,10 @@ public class MessageHandler : MonoBehaviour
         collectedData.Add(indexTipPosition.x.ToString(dotCulture));
         collectedData.Add(indexTipPosition.y.ToString(dotCulture));
         collectedData.Add(indexTipPosition.z.ToString(dotCulture));
+        Debug.Log($"indexTipPosition: {indexTipPosition} target: {target}");
+        collectedData.Add(Vector3.Distance(indexTipPosition, target).ToString(dotCulture));
+
+        
 
         // Add the even click index tip position if it was captured
         if (evenClickPositionCaptured)
@@ -241,11 +246,12 @@ public class MessageHandler : MonoBehaviour
         collectedData.Clear();
     }
 
-
+    private Vector3 target;
     private void PerformActions()
     {
+        Debug.Log("PerformActions");
         // Get the current target name from the display.
-        string targetName = nameDisplayHandler.GetCurrentDisplayText();
+        string targetName = nameDisplayHandler.GetCurrentDisplayText().Substring(0, 3); 
 
         // Retrieve the spawned positions and their corresponding names.
         var spawnedPositions = spawner.GetSpawnedPositionsAndNames();
@@ -260,6 +266,8 @@ public class MessageHandler : MonoBehaviour
                 collectedData.Add(pos.Key.z.ToString(dotCulture));
                 collectedData.Add(pos.Value);
                 collectedData.Add(targetName);
+                target = pos.Key;
+
             }
         }
     }
@@ -290,7 +298,7 @@ public class MessageHandler : MonoBehaviour
         collectedData.Add(nearestObjectPosition.y.ToString(dotCulture));
         collectedData.Add(nearestObjectPosition.z.ToString(dotCulture));
         collectedData.Add(nearestObjectName);
-        collectedData.Add(minDistance.ToString(dotCulture));
+        
     }
 
     private void LogIfInsideTargetObject(Vector3 indexTipPosition)

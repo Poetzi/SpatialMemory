@@ -11,9 +11,8 @@ public class RandomSpawner : MonoBehaviour
     private float distanceFromEdge = 0.00f; // 5 cm from the edge
 
     public Material transparentMaterial; // Reference to the material set via the Unity Editor
-
     private Dictionary<Vector3, string> spawnedObjects = new Dictionary<Vector3, string>();
-    private Dictionary<GameObject, string> spawnedGameObjects = new Dictionary<GameObject, string>(); // Store the instantiated GameObjects
+    public Dictionary<GameObject, string> spawnedGameObjects = new Dictionary<GameObject, string>(); // Store the instantiated GameObjects
 
     void Start()
     {
@@ -70,7 +69,7 @@ public class RandomSpawner : MonoBehaviour
                 if (SceneManager.GetActiveScene().name.Equals("Part4"))
                 {
                     MakeObjectTransparentAndDeactivateChildren(spawnedObject);
-                }
+                }              
             }
         }
     }
@@ -160,7 +159,7 @@ public class RandomSpawner : MonoBehaviour
         return new Dictionary<GameObject, string>(spawnedGameObjects);
     }
 
-    private void MakeObjectTransparentAndDeactivateChildren(GameObject obj)
+    public void MakeObjectTransparentAndDeactivateChildren(GameObject obj)
     {
         if (transparentMaterial == null)
         {
@@ -180,7 +179,17 @@ public class RandomSpawner : MonoBehaviour
             child.gameObject.SetActive(false);
         }
     }
+
+    public void MakeAllSpawnedObjectsInvisible()
+    {
+        foreach (GameObject obj in spawnedGameObjects.Keys)
+        {
+            MakeObjectTransparentAndDeactivateChildren(obj);
+        }
+    }
 }
+
+
 
 [System.Serializable]
 public class PrefabPosition

@@ -3,6 +3,7 @@ using TMPro; // Import TextMeshPro namespace
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class NameDisplayHandler : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class NameDisplayHandler : MonoBehaviour
     private Color color1 = Color.white;
     private Color color2 = Color.green;
     private bool isColor1 = true; // Track the current color
+
+    public RandomSpawner randomSpawner;
 
     public void InitializeNames()
     {
@@ -43,9 +46,10 @@ public class NameDisplayHandler : MonoBehaviour
             // Set the display text to the first name in the shuffled list if there are any names
             if (names.Count > 0)
             {
-                displayText.text = names[0];
-                currentNameIndex = 0; // Start from the first name for the next call to DisplayNextName
                 trialNumber = 0; // Initialize the trial number
+                displayText.text = names[0] + showTrialText(false); 
+                currentNameIndex = 0; // Start from the first name for the next call to DisplayNextName
+               
             }
             else
             {
@@ -58,9 +62,10 @@ public class NameDisplayHandler : MonoBehaviour
             // Set the display text to the first name in the shuffled list if there are any names
             if (names.Count > 0)
             {
-                displayText.text = names[0];
-                currentNameIndex = 1; // Start from the next name for the next call to DisplayNextName
                 trialNumber = 1; // Initialize the trial number
+                displayText.text = names[0] + showTrialText(true);
+                currentNameIndex = 1; // Start from the next name for the next call to DisplayNextName
+                
             }
             else
             {
@@ -69,6 +74,22 @@ public class NameDisplayHandler : MonoBehaviour
         }
     }
 
+    private string showTrialText(bool numberAdjustment)
+    {
+        int adjustment = 0;
+        if (numberAdjustment == true)
+        {
+            adjustment = 1;
+        }
+        // Adjust the size of the trial text to be smaller than the name text
+        return "\n<size=50%>" + (GetCurrentTrialNumber() - adjustment).ToString() + countText() + "</size>";
+    }
+
+
+    private string countText()
+    {
+        return "/48";
+    }
 
     public void DisplayNextName()
     {
@@ -77,10 +98,18 @@ public class NameDisplayHandler : MonoBehaviour
             return; // Stop function if the handler is inactive or there are no names
         }
 
-        displayText.text = names[currentNameIndex];
-        Debug.Log("Index " + currentNameIndex);
-        currentNameIndex++;
+        if (trialNumber == 36 && SceneManager.GetActiveScene().name.Equals("Part0"))
+        {
+            spawner.MakeAllSpawnedObjectsInvisible();
+        }
+
         trialNumber++; // Increment the trial number
+        displayText.text = names[currentNameIndex] + showTrialText(true);
+
+        
+
+        Debug.Log("Index " + currentNameIndex);
+        currentNameIndex++;        
 
         if (currentNameIndex >= names.Count)
         {
@@ -105,9 +134,10 @@ public class NameDisplayHandler : MonoBehaviour
             return; // Stop function if the handler is inactive or there are no names
         }
 
-        displayText.text = names[currentNameIndex];
+        
         Debug.Log("Index " + currentNameIndex);
         trialNumber++; // Increment the trial number
+        displayText.text = names[currentNameIndex] + showTrialText(false);
 
         // Check if the current name has been displayed 12 times
         if (trialNumber % 12 == 0)
