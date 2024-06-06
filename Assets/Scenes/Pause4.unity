@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _position: {x: 0, y: 0, z: 0}
-  _size: {x: 780, y: 249.57, z: 0.01}
+  _size: {x: 780, y: 314.33, z: 0.01}
 --- !u!114 &364160190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,7 +393,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 1.5}
-  m_SizeDelta: {x: 780, y: 249.57}
+  m_SizeDelta: {x: 780, y: 314.33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &682340204
 GameObject:
@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c89e7b7fad09646b1b9513ddd6631b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoadIndex: 9
+  sceneToLoadIndex: 8
   transitionButton: {fileID: 1384404985}
 --- !u!4 &682340206
 Transform:
@@ -801,7 +801,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 693168603103582408, guid: 97e33494e27fdd147a0d4020ab527ed5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -183.57
+      value: -233
       objectReference: {fileID: 0}
     - target: {fileID: 693168603103582408, guid: 97e33494e27fdd147a0d4020ab527ed5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1263,10 +1263,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The third part is finished and now the fourth part starts. The objects
-    will be invisible now. Please rely on your memory and point to the location of
-    the objects as accurately as possible. Please click on the button below to start
-    the second part.
+  m_text: The third part is finished and now the fourth part starts. You completed
+    144 of 192 trials. The objects will be invisible now. Please rely on your memory
+    and point to the location of the objects as accurately as possible. Please click
+    on the button below when you are ready to start the fourth part.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

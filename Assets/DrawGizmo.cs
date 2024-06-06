@@ -6,9 +6,18 @@ public class DrawGizmo : MonoBehaviour
 {
     private GameObject gizmoContainer;
 
-    [SerializeField] public Vector3 boxCenter = new Vector3(0, 1, 0);
-    [SerializeField] public Vector3 boxSize = new Vector3(0.91f, 0.91f, 0.46f);
+    private Vector3 boxCenter = new Vector3(0, 1.5f, 0.76f);
+    private Vector3 boxSize = new Vector3(0.60f, 0.60f, 0.30f);
 
+    public Vector3 getBoxCenter()
+    {
+        return boxCenter;
+    }
+
+    public Vector3 getBoxSize()
+    {
+        return boxSize;
+    }
     public void OnDrawGizmos()
     {
         Gizmos.color = new Color(1, 1, 1, 0.5f);

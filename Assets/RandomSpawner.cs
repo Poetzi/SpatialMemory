@@ -8,7 +8,7 @@ public class RandomSpawner : MonoBehaviour
     public DrawGizmo gizmo;
     public List<GameObject> prefabs;
     public float minimumDistance = 0.15f; // in meters
-    private float distanceFromEdge = 0.05f; // 5 cm from the edge
+    private float distanceFromEdge = 0.00f; // 5 cm from the edge
 
     public Material transparentMaterial; // Reference to the material set via the Unity Editor
 
@@ -54,9 +54,9 @@ public class RandomSpawner : MonoBehaviour
 
     public void SpawnObjects()
     {
-        Vector3 boxSize = gizmo.boxSize;
-        Vector3 spawnAreaMin = gizmo.boxCenter - boxSize / 2 + new Vector3(distanceFromEdge, distanceFromEdge, distanceFromEdge);
-        Vector3 spawnAreaMax = gizmo.boxCenter + boxSize / 2 - new Vector3(distanceFromEdge, distanceFromEdge, distanceFromEdge);
+        Vector3 boxSize = gizmo.getBoxSize();
+        Vector3 spawnAreaMin = gizmo.getBoxCenter() - boxSize / 2 + new Vector3(distanceFromEdge, distanceFromEdge, distanceFromEdge);
+        Vector3 spawnAreaMax = gizmo.getBoxCenter() + boxSize / 2 - new Vector3(distanceFromEdge, distanceFromEdge, distanceFromEdge);
 
         foreach (GameObject prefab in prefabs)
         {

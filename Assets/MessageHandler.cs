@@ -19,7 +19,8 @@ public class MessageHandler : MonoBehaviour
     public ClearPlayerPrefs clearPlayerPrefs;
     public bool randomSpawns = true;
     public List<PrefabPosition> customPrefabPositions;
-    private bool debug = true;
+    private bool debug = false;
+    private Vector3 debugVector = new Vector3(0, 0.95f, 0.2f);
     public int sceneChangeId;
 
     private int clickCount = 0; // Track the number of clicks
@@ -117,12 +118,13 @@ public class MessageHandler : MonoBehaviour
 
     private void HandleEvenClick()
     {
-        Vector3 indexTipPosition = debug ? new Vector3(0.4f, 0.75f, 0) : handPositionManager.GetIndexTipPosition();
+        Vector3 indexTipPosition = debug ? debugVector : handPositionManager.GetIndexTipPosition();
 
         if (startObjectSpawner.IsInside(indexTipPosition))
         {
             timer.StartTimer();
             startObjectSpawner.SwitchColor();
+            nameDisplayHandler.SwitchColor();
             // Store the index tip position on even clicks
             evenClickIndexTipPosition = indexTipPosition;
             evenClickPositionCaptured = true; // Mark that the position has been captured
@@ -182,7 +184,8 @@ public class MessageHandler : MonoBehaviour
         // Stop the timer and get the elapsed time
         float time = timer.EndTimerAndGetElapsedTime();
         startObjectSpawner.SwitchColor();
-        Vector3 indexTipPosition = debug ? new Vector3(0.4f, 0.75f, 0) : handPositionManager.GetIndexTipPosition();
+        nameDisplayHandler.SwitchColor();
+        Vector3 indexTipPosition = debug ? debugVector : handPositionManager.GetIndexTipPosition();
 
         // Log if the even click is inside the target object
         LogIfInsideTargetObject(indexTipPosition);

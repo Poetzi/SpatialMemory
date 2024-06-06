@@ -5,8 +5,8 @@ public class StartObjectSpawner : MonoBehaviour
     public GameObject cubePrefab; // Assign the cube prefab in the inspector
     private GameObject spawnedCube; // Holds the spawned cube instance
 
-    public Color color1 = Color.red; // First color (red)
-    public Color color2 = Color.blue; // Second color (blue)
+    private Color color1 = Color.white; 
+    private Color color2 = Color.green; 
     private bool isColor1 = true; // Track the current color
 
     // Method to spawn the cube

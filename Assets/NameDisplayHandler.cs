@@ -16,6 +16,10 @@ public class NameDisplayHandler : MonoBehaviour
     private bool isActive = true; // Flag to control the display process
     private int trialNumber = 0; // Track the trial number
 
+    private Color color1 = Color.white;
+    private Color color2 = Color.green;
+    private bool isColor1 = true; // Track the current color
+
     public void InitializeNames()
     {
         if (displayText == null)
@@ -176,5 +180,20 @@ public class NameDisplayHandler : MonoBehaviour
     public int GetCurrentTrialNumber()
     {
         return trialNumber;
+    }
+
+    public void SwitchColor()
+    {
+        if (displayText != null)
+        {
+            
+                // Toggle the color
+                displayText.color = isColor1 ? color2 : color1;
+                isColor1 = !isColor1;           
+        }
+        else
+        {
+            Debug.LogError("Displaytext is null!");
+        }
     }
 }
