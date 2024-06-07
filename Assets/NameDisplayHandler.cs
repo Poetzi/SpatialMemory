@@ -46,8 +46,8 @@ public class NameDisplayHandler : MonoBehaviour
             // Set the display text to the first name in the shuffled list if there are any names
             if (names.Count > 0)
             {
-                trialNumber = 0; // Initialize the trial number
-                displayText.text = names[0] + showTrialText(false); 
+                trialNumber = 1; // Initialize the trial number
+                displayText.text = names[0] + showTrialText(true); 
                 currentNameIndex = 0; // Start from the first name for the next call to DisplayNextName
                
             }
@@ -137,7 +137,7 @@ public class NameDisplayHandler : MonoBehaviour
         
         Debug.Log("Index " + currentNameIndex);
         trialNumber++; // Increment the trial number
-        displayText.text = names[currentNameIndex] + showTrialText(false);
+        displayText.text = names[currentNameIndex] + showTrialText(true);
 
         // Check if the current name has been displayed 12 times
         if (trialNumber % 12 == 0)

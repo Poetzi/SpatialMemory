@@ -1018,7 +1018,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 693168603103582408, guid: 97e33494e27fdd147a0d4020ab527ed5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -183.57
+      value: -221.8
       objectReference: {fileID: 0}
     - target: {fileID: 693168603103582408, guid: 97e33494e27fdd147a0d4020ab527ed5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1166,7 +1166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _position: {x: 0, y: 0, z: 0}
-  _size: {x: 780, y: 249.57, z: 0.01}
+  _size: {x: 780, y: 287.49, z: 0.01}
 --- !u!114 &1249940974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1275,7 +1275,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 1.5}
-  m_SizeDelta: {x: 780, y: 249.57}
+  m_SizeDelta: {x: 780, y: 287.49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1591736821
 GameObject:
