@@ -19,7 +19,7 @@ public class MessageHandler : MonoBehaviour
     public ClearPlayerPrefs clearPlayerPrefs;
     public bool randomSpawns = true;
     public List<PrefabPosition> customPrefabPositions;
-    private bool debug = true;
+    private bool debug = false;
     private Vector3 debugVector = new Vector3(0, 1.16f, 0.38f);
     public int sceneChangeId;
 

@@ -33,15 +33,20 @@ public class HandPositionManager : MonoBehaviour
     }
 
     // Method to get the last saved position of the index tip
-    public Vector3 GetIndexTipPosition()
+    public Vector3 GetIndexTipPosition(int attempts = 10)
     {
         if (CanSaveHandPosition())
         {
             SaveHandPosition();
             return lastSavedIndexTipPosition;
         }
-        Debug.Log($"Return zero vector, because the position cannot be obtained");
-        return Vector3.zero; // Return zero vector if the position cannot be obtained
+        else if (attempts > 0)
+        {
+            return GetIndexTipPosition(attempts - 1); // Recursive call with decremented attempts
+        }
+
+        Debug.Log($"Return zero vector, because the position cannot be obtained after {10 - attempts} attempts");
+        return Vector3.zero; // Return zero vector if the position cannot be obtained after 10 attempts
     }
 
     private void SaveHandPosition()

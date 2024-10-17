@@ -88,7 +88,7 @@ public class NameDisplayHandler : MonoBehaviour
 
     private string countText()
     {
-        return "/48";
+        return "/47";
     }
 
     public void DisplayNextName()

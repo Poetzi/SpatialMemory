@@ -10352,14 +10352,14 @@ MonoBehaviour:
   clearPlayerPrefs: {fileID: 1946357758}
   randomSpawns: 1
   customPrefabPositions:
-  - prefab: {fileID: 8678684680937610573, guid: 3483ce041f6e3e742b785d3f57fd9ccb, type: 3}
-    position: {x: 0, y: 0, z: 0}
-  - prefab: {fileID: 8678684680937610573, guid: 1ad4fb74efd015b4a838600945a6c81d, type: 3}
-    position: {x: 1, y: 1, z: 1}
-  - prefab: {fileID: 8678684680937610573, guid: 766a9f3200072ab41a43f05df977b130, type: 3}
-    position: {x: 2, y: 2, z: 2}
-  - prefab: {fileID: 8678684680937610573, guid: fda32df69a48dc34d9edf0a88af21b14, type: 3}
-    position: {x: 3, y: 3, z: 3}
+  - prefab: {fileID: 6650868726693372779, guid: ffb056fc8d5ef764289835def8e7ddbc, type: 3}
+    position: {x: 0.1026463, y: 0.9605704, z: 0.6482816}
+  - prefab: {fileID: 6650868726693372779, guid: 9dddb0d1a696b064081c7d930172479f, type: 3}
+    position: {x: -0.004841685, y: 1.245559, z: 0.4996863}
+  - prefab: {fileID: 6650868726693372779, guid: eb1ca3b65e3bdff4985be8ea81213c0e, type: 3}
+    position: {x: -0.2115556, y: 1.106722, z: 0.5110816}
+  - prefab: {fileID: 6650868726693372779, guid: f0ce65438442f934b95c5b84d6809b4f, type: 3}
+    position: {x: -0.05043829, y: 1.483951, z: 0.6073949}
   sceneChangeId: 9
 --- !u!114 &1946357750
 MonoBehaviour:
@@ -10408,6 +10408,7 @@ MonoBehaviour:
   displayText: {fileID: 1575953724}
   spawner: {fileID: 1946357751}
   iterations: 1
+  randomSpawner: {fileID: 0}
 --- !u!114 &1946357753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10433,7 +10434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4b41c8647e9c614ab85ecc8b4ef56e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  participantID: 1
+  participantID: 12
   blockNumber: 4
 --- !u!114 &1946357755
 MonoBehaviour:

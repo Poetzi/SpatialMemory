@@ -6,7 +6,7 @@ public class DrawGizmo : MonoBehaviour
 {
     private GameObject gizmoContainer;
 
-    private Vector3 boxCenter = new Vector3(0, 1.5f, 0.76f);
+    private Vector3 boxCenter = new Vector3(0, 1.55f, 0.55f);
     private Vector3 boxSize = new Vector3(0.60f, 0.60f, 0.30f);
 
     public Vector3 getBoxCenter()
